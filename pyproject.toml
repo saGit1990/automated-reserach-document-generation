@@ -22,3 +22,11 @@ dev = [
     "automated-research-report-generation",
     "langgraph>=0.6.8",
 ]
+
+# Optional: CLI command (python -m pip install -e .)
+[project.scripts]
+automated-research-report-generation = "research_and_analyst.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["research_and_analyst"]
+include = ["research_and_analyst*"]

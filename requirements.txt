@@ -1,4 +1,9 @@
 langgraph
 ipykernel
+structlog 
+python-dotenv
+langchain_google_genai
+langchain_openai
+langchain_groq
 
 -e . 

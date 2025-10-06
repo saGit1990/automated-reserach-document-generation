@@ -6,6 +6,8 @@ wheels/
 *.egg-info/
 .eggs/
 pip-wheel-metadata/
+logs/
+.logs/
 
 
 # virtual environments
