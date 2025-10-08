@@ -7,7 +7,7 @@ def _project_root() ->Path:
     Returns the parent directory of the current file.
     Note: parent[1] is likely a bug; it should probably be .parent.parent to go up two levels.
     """ 
-    return Path(__file__).resolve().parent.parent
+    return Path(__file__).resolve().parent.parent.parent
 
 def load_config(config_path: str | None = None) -> dict:
     """ 
@@ -26,11 +26,11 @@ def load_config(config_path: str | None = None) -> dict:
     """
 
     env_path = os.getenv('CONFIG_PATH')
-    print(f"hello {env_path}")
     if config_path is None:
         config_path = env_path or str(_project_root()/'config'/'configuration.yaml')
 
     path = Path(config_path)
+    # If path is not absolute and does not already start from project root, join with project root
     if not path.is_absolute():
         path = _project_root() / path
 

@@ -10,6 +10,8 @@ from logger import GLOBAL_LOGGER as log
 from exceptions.custom_exception import ResearchAnalystException
 import asyncio
 
+load_dotenv()  # Load environment variables from .env file
+
 class ApiKeyManager:
     def __init__(self):
         self.api_keys = {
@@ -18,6 +20,7 @@ class ApiKeyManager:
             "ASTRA_DB_API_ENDPOINT": os.getenv("ASTRA_DB_API_ENDPOINT"),
             "ASTRA_DB_APPLICATION_TOKEN": os.getenv("ASTRA_DB_APPLICATION_TOKEN"),
             "ASTRA_DB_KEYSPACE": os.getenv("ASTRA_DB_KEYSPACE"),
+            "CONFIG_PATH": os.getenv("CONFIG_PATH")
         }
 
         # Just log loaded keys (don't print actual values)
@@ -52,10 +55,10 @@ class ModelLoader:
                 asyncio.get_running_loop()
             except RuntimeError:
                 asyncio.set_event_loop(asyncio.new_event_loop())
-
+            
             return GoogleGenerativeAIEmbeddings(
                 model=model_name,
-                google_api_key=self.api_key_mgr.get("GOOGLE_API_KEY")  # type: ignore
+                api_key=self.api_key_mgr.get("GOOGLE_API_KEY")  # type: ignore
             )
         except Exception as e:
             log.error("Error loading embedding model", error=str(e))
@@ -67,7 +70,7 @@ class ModelLoader:
         Load and return the configured LLM model.
         """
         llm_block = self.config["llm"]
-        provider_key = os.getenv("LLM_PROVIDER", "openai")
+        provider_key = os.getenv("LLM_PROVIDER", "google")
 
         if provider_key not in llm_block:
             log.error("LLM provider not found in config", provider=provider_key)
@@ -84,7 +87,7 @@ class ModelLoader:
         if provider == "google":
             return ChatGoogleGenerativeAI(
                 model=model_name,
-                google_api_key=self.api_key_mgr.get("GOOGLE_API_KEY"),
+                api_key=self.api_key_mgr.get("GOOGLE_API_KEY"),
                 temperature=temperature,
                 max_output_tokens=max_tokens
             )

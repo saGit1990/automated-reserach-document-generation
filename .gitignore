@@ -8,10 +8,10 @@ wheels/
 pip-wheel-metadata/
 logs/
 .logs/
-
+env/
 
 # virtual environments
 venv/
 env/
 .venv/
-.env/
+
