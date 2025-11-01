@@ -5,5 +5,8 @@ python-dotenv
 langchain_google_genai
 langchain_openai
 langchain_groq
+python-docx
+reportlab
+tavily-python
 
 -e . 
